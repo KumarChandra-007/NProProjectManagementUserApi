@@ -1,0 +1,6 @@
+@NproProjectManagement.UserApi_HostAddress = http://localhost:5244
+
+GET {{NproProjectManagement.UserApi_HostAddress}}/swagger/index.html
+Accept: application/json
+
+###
