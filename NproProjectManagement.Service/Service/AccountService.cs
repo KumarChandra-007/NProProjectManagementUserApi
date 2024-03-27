@@ -71,10 +71,11 @@ namespace Services.Service
             var user = await _accountRepository.GetAllUserAsync();
             if (user != null)
             {
-                var res = new UserViewModel();
+                
 
                 foreach (var item in user)
                 {
+                    var res = new UserViewModel();
                     res.UserId = item.UserId;
                     res.Username = item.Username;
                     res.Role = item.Role;
