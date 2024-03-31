@@ -1,4 +1,5 @@
-﻿using NproProjectManagement.Common.Models;
+﻿using Microsoft.IdentityModel.Tokens;
+using NproProjectManagement.Common.Models;
 using NproProjectManagement.Common.ViewModels;
 using Repositories.Interface;
 using System;
@@ -84,10 +85,35 @@ namespace Repositories.Repository
         public async Task<AllProjectInfo> GetAllProjectInfo()
         {
             AllProjectInfo info = new AllProjectInfo();
-            info.AllTaskCount = _context.Tasks.Count();
-            info.CompletedTaskCount = _context.Tasks.Count(t => t.Status.ToLower().Contains("completed"));
-            info.PendingTaskCount = _context.Tasks.Count(t => !t.Status.ToLower().Contains("completed"));
-            info.AllProjectCount = _context.Projects.Count();
+            var tasks = _context.Tasks.ToList();
+            var projects = _context.Projects.ToList();
+            info.AllTaskCount = tasks.Count();
+            info.CompletedTaskCount = tasks.Count(t => t.Status.ToLower().Contains("completed"));
+            info.PendingTaskCount = tasks.Count(t => !t.Status.ToLower().Contains("completed"));
+            info.AllProjectCount = projects.Count();
+            info.ProjectUserTaskGridInfo = new List<ProjectUserTask>();
+            var statuses= _context.Statuses.ToList();
+            string statusPercentage = string.Empty;
+            projects.ForEach(project =>
+            {
+                ProjectUserTask userTask = new ProjectUserTask();
+                statuses.ForEach(status => {
+                    var count = tasks.Count(task => project.ProjectId==task.ProjectId && task.Status.ToLower() == status.StatusName.ToLower());
+                    statusPercentage += status.StatusName + ":" + count.ToString() + ",";
+                });
+                if (statusPercentage != string.Empty)
+                {
+                    statusPercentage = statusPercentage.Remove(statusPercentage.Length - 1);
+                }
+                userTask.ProjectId= project.ProjectId;
+                userTask.Title = project.Title;
+                userTask.UserCount= _context.UserProjectMappings.Count(t => t.ProjectId == project.ProjectId);
+                userTask.TaskCount = tasks.Count(t => t.ProjectId == project.ProjectId);
+                userTask.StatusPercentage = statusPercentage;
+                info.ProjectUserTaskGridInfo.Add(userTask);
+            });
+            
+
             return info;
         }
         public async Task<int> GetUserCountByProjectId(int projectId)
@@ -101,6 +127,26 @@ namespace Repositories.Repository
             {
                 return 0;
             }
+        }
+        public async Task<int> SaveUser(User user)
+        { 
+            await _context.Users.AddAsync(user);
+            int rowsAffected=await _context.SaveChangesAsync();
+            return rowsAffected;
+        }
+
+        public async Task<int> UpdateUser(User user)
+        {
+            _context.Users.Update(user);
+            int rowsAffected = await _context.SaveChangesAsync();
+            return rowsAffected;
+        }
+
+        public async Task<int> DeleteUser(User user)
+        {
+            _context.Users.Remove(user);
+            int rowsAffected = await _context.SaveChangesAsync();
+            return rowsAffected;
         }
 
         public async Task<List<Project>> GetAllProjectsAsync()

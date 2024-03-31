@@ -18,5 +18,8 @@ namespace Repositories.Interface
         Task<int> GetTaskCountByProjectId(int projectId);
         Task<List<Project>> GetAllProjectsAsync();
         Task<AllProjectInfo> GetAllProjectInfo();
+        Task<int> SaveUser(User user);
+        Task<int> UpdateUser(User user);
+        Task<int> DeleteUser(User user);
     }
 }

@@ -16,7 +16,10 @@ namespace NproProjectManagement.Common.ViewModels
 
         public int TaskCount { get; set; }
 
+        public string StatusPercentage { get; set; }
+
     }
+
     public class AllProjectInfo
     {
         public int AllProjectCount { get; set; }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Common.ViewModels;
 using Microsoft.Data.SqlClient;
+using NproProjectManagement.Common.Models;
 using NproProjectManagement.Common.ViewModels;
 using Repositories.Interface;
 using Services.Interface;
@@ -102,29 +103,39 @@ namespace Services.Service
         {
             var allProjectInfo = new AllProjectInfo();
             var result = new List<ProjectUserTask>();
-            var project = await _accountRepository.GetAllProjectsAsync();
-            if (project != null)
-            {
-                allProjectInfo = await _accountRepository.GetAllProjectInfo();
-                foreach (var item in project)
-                {
-                    var res = new ProjectUserTask();
+            allProjectInfo = await _accountRepository.GetAllProjectInfo();
 
-                    res.ProjectId = item.ProjectId;
-                    res.Title = item.Title;
-                    res.UserCount = await _accountRepository.GetUserCountByProjectId(item.ProjectId);
-                    res.TaskCount = await _accountRepository.GetTaskCountByProjectId(item.ProjectId);
-                    result.Add(res);
-                }
+            //var project = await _accountRepository.GetAllProjectsAsync();
+            //if (project != null)
+            //{
+            //    foreach (var item in project)
+            //    {
+            //        var res = new ProjectUserTask();
 
-                allProjectInfo.ProjectUserTaskGridInfo = result;
+            //        res.ProjectId = item.ProjectId;
+            //        res.Title = item.Title;
+            //        res.UserCount = await _accountRepository.GetUserCountByProjectId(item.ProjectId);
+            //        res.TaskCount = await _accountRepository.GetTaskCountByProjectId(item.ProjectId);
+            //        result.Add(res);
+            //    }
+
+            //    allProjectInfo.ProjectUserTaskGridInfo = result;
 
                 return allProjectInfo;
-            }
-            else
-            {
-                return null;
-            }
+            //}
+            //else
+            //{
+            //    return null;
+            //}
+        }
+        public async Task<int> SaveUser(User user){
+            return await _accountRepository.SaveUser(user);
+        }
+        public async Task<int> UpdateUser(User user) {
+            return await _accountRepository.UpdateUser(user);
+        }
+        public async Task<int> DeleteUser(User user) {
+            return await _accountRepository.DeleteUser(user);
         }
     }
 }

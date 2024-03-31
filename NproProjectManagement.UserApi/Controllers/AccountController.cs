@@ -6,6 +6,7 @@ using Services.Interface;
 using System.Security.Claims;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using NproProjectManagement.Common.Models;
 namespace NproProjectManagement.Controllers
 {
     [Route("userapi")]
@@ -47,6 +48,34 @@ namespace NproProjectManagement.Controllers
         public async Task<IActionResult> GetAllUserDetails()
         {          
             var result = await _accountService.GetAllUserDetailsAsync();
+            return Ok(result);
+        }
+
+
+        //[Authorize]
+        [HttpPost]
+        [Route("PostUser")]
+        public async Task<IActionResult> PostUser(User user)
+        {
+            var result = await _accountService.SaveUser(user);
+            return Ok(result);
+        }
+
+        //[Authorize]
+        [HttpPost]
+        [Route("PutUser")]
+        public async Task<IActionResult> PutUser(User user)
+        {
+            var result = await _accountService.UpdateUser(user);
+            return Ok(result);
+        }
+
+        //[Authorize]
+        [HttpPost]
+        [Route("DeleteUser")]
+        public async Task<IActionResult> DeleteUser(User user)
+        {
+            var result = await _accountService.DeleteUser(user);
             return Ok(result);
         }
 
