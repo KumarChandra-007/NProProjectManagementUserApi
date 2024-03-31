@@ -7,7 +7,7 @@ using System.Security.Claims;
 
 namespace NproProjectManagement.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("userapi")]
     [ApiController]
     public class AccountController : ControllerBase
     {
