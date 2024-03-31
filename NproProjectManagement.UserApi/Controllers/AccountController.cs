@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interface;
 using System.Security.Claims;
-
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 namespace NproProjectManagement.Controllers
 {
     [Route("userapi")]
@@ -59,13 +60,13 @@ namespace NproProjectManagement.Controllers
         //}
 
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         [Route("GetProjectUserTaskMapping")]
         public async Task<IActionResult> GetProjectUserTaskMapping()
         {
             var result = await _accountService.GetProjectUserTaskMappingAsync();
-            return Ok(result);
+            return Ok(JsonConvert.SerializeObject(result));
         }
     }
 }

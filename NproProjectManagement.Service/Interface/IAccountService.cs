@@ -13,6 +13,6 @@ namespace Services.Interface
         Task<LoginResponse> AuthenticateAsync(string username, string password);
         Task<UserViewModel> GetUserDetailsAsync(string username);
         Task<List<UserViewModel>> GetAllUserDetailsAsync();
-        Task<List<ProjectUserTask>> GetProjectUserTaskMappingAsync();
+        Task<AllProjectInfo> GetProjectUserTaskMappingAsync();
     }
 }

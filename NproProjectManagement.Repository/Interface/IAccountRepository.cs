@@ -1,4 +1,5 @@
 ﻿using NproProjectManagement.Common.Models;
+using NproProjectManagement.Common.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,6 @@ namespace Repositories.Interface
         Task<int> GetUserCountByProjectId(int projectId);
         Task<int> GetTaskCountByProjectId(int projectId);
         Task<List<Project>> GetAllProjectsAsync();
+        Task<AllProjectInfo> GetAllProjectInfo();
     }
 }

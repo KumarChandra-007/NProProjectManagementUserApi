@@ -11,7 +11,18 @@ using Services.Interface;
 using Services.Service;
 using System.Text;
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:4200");
+                      });
+});
 var jwtIssuer = builder.Configuration.GetSection("JWT:Issuer").Get<string>();
 var jwtKey = builder.Configuration.GetSection("JWT:Secret").Get<string>();
 
@@ -83,16 +94,7 @@ builder.Services.AddDbContext<NproContext>(options =>
 
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowSpecificOrigin",
-        builder =>
-        {
-            builder.WithOrigins("http://localhost:4200")
-                .AllowAnyHeader()
-                .AllowAnyMethod();
-        });
-});
+
 
 var mapper = new MapperConfiguration(m =>
 {
@@ -127,8 +129,8 @@ app.UseSwaggerUI(c =>
 //app.UseSwaggerUI();
 
 // Configure the HTTP request pipeline.
-app.UseCors("MyAllowSpecificOrigins");
-app.UseAuthentication();
+app.UseCors(MyAllowSpecificOrigins);
+//app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

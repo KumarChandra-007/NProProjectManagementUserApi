@@ -13,15 +13,17 @@ public partial class Project
 
     public DateTime Deadline { get; set; }
 
+    public DateTime StartDate { get; set; }
+
     public string Status { get; set; } = null!;
 
-    public bool? IsActive { get; set; }
+    //public bool? IsActive { get; set; }
 
-    public DateTime? CreatedOn { get; set; }
+    //public DateTime? CreatedOn { get; set; }
 
-    public int? CreatedBy { get; set; }
+    //public int? CreatedBy { get; set; }
 
-    public DateTime? UpdatedAt { get; set; }
+    //public DateTime? UpdatedAt { get; set; }
 
-    public int? UpdatedBy { get; set; }
+    //public int? UpdatedBy { get; set; }
 }

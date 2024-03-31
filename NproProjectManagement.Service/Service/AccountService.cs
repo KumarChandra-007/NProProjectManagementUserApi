@@ -19,7 +19,7 @@ namespace Services.Service
         public readonly AuthHelpers _authHelpers;
         private readonly IMapper _mapper;
         public AccountService(IAccountRepository accountRepository, AuthHelpers authHelpers)
-        { 
+        {
             _accountRepository = accountRepository;
             _authHelpers = authHelpers;
         }
@@ -43,13 +43,13 @@ namespace Services.Service
         }
         public async Task<UserViewModel> GetUserDetailsAsync(string username)
         {
-           var res = new UserViewModel();
+            var res = new UserViewModel();
             var user = await _accountRepository.GetUserAsync(username);
             if (user != null)
             {
                 res.UserId = user.UserId;
                 res.Username = user.Username;
-                res.Role = user.Role; 
+                res.Role = user.Role;
                 res.Email = user.Email;
                 res.FirstName = user.FirstName;
                 res.LastName = user.LastName;
@@ -68,11 +68,12 @@ namespace Services.Service
             }
         }
         public async Task<List<UserViewModel>> GetAllUserDetailsAsync()
-        {   var result = new List<UserViewModel>();    
+        {
+            var result = new List<UserViewModel>();
             var user = await _accountRepository.GetAllUserAsync();
             if (user != null)
             {
-                
+
 
                 foreach (var item in user)
                 {
@@ -97,14 +98,14 @@ namespace Services.Service
             }
         }
 
-        public async Task<List<ProjectUserTask>> GetProjectUserTaskMappingAsync()
+        public async Task<AllProjectInfo> GetProjectUserTaskMappingAsync()
         {
+            var allProjectInfo = new AllProjectInfo();
             var result = new List<ProjectUserTask>();
             var project = await _accountRepository.GetAllProjectsAsync();
             if (project != null)
             {
-
-
+                allProjectInfo = await _accountRepository.GetAllProjectInfo();
                 foreach (var item in project)
                 {
                     var res = new ProjectUserTask();
@@ -113,11 +114,12 @@ namespace Services.Service
                     res.Title = item.Title;
                     res.UserCount = await _accountRepository.GetUserCountByProjectId(item.ProjectId);
                     res.TaskCount = await _accountRepository.GetTaskCountByProjectId(item.ProjectId);
-                    
                     result.Add(res);
                 }
-                // return _mapper.Map<List<UserViewModel>>(user);
-                return result;
+
+                allProjectInfo.ProjectUserTaskGridInfo = result;
+
+                return allProjectInfo;
             }
             else
             {

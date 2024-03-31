@@ -1,4 +1,5 @@
 ﻿using NproProjectManagement.Common.Models;
+using NproProjectManagement.Common.ViewModels;
 using Repositories.Interface;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Repositories.Repository
 {
-    public  class AccountRepository : IAccountRepository
+    public class AccountRepository : IAccountRepository
     {
         public readonly NproContext _context;
         public AccountRepository(NproContext context)
@@ -19,9 +20,9 @@ namespace Repositories.Repository
         public async Task<bool> IsValidUserAsync(string username, string password)
         {
             var user = await _context.Users.FindAsync(username, password);
-            if (user != null) 
-            { 
-                 return true;
+            if (user != null)
+            {
+                return true;
             }
             else
             {
@@ -30,7 +31,7 @@ namespace Repositories.Repository
         }
         public async Task<User> GetUserAsync(string username, string password)
         {
-            var user =  _context.Users.Where(u=> u.Username == username && u.Password == password && u.IsActive == true).SingleOrDefault();
+            var user = _context.Users.Where(u => u.Username == username && u.Password == password && u.IsActive == true).SingleOrDefault();
             if (user != null)
             {
                 return user;
@@ -70,7 +71,7 @@ namespace Repositories.Repository
 
         public async Task<int> GetTaskCountByProjectId(int projectId)
         {
-            int count = _context.Tasks.Count(t => t.ProjectId == projectId);           
+            int count = _context.Tasks.Count(t => t.ProjectId == projectId);
             if (count != 0)
             {
                 return count;
@@ -80,7 +81,15 @@ namespace Repositories.Repository
                 return 0;
             }
         }
-
+        public async Task<AllProjectInfo> GetAllProjectInfo()
+        {
+            AllProjectInfo info = new AllProjectInfo();
+            info.AllTaskCount = _context.Tasks.Count();
+            info.CompletedTaskCount = _context.Tasks.Count(t => t.Status.ToLower().Contains("completed"));
+            info.PendingTaskCount = _context.Tasks.Count(t => !t.Status.ToLower().Contains("completed"));
+            info.AllProjectCount = _context.Projects.Count();
+            return info;
+        }
         public async Task<int> GetUserCountByProjectId(int projectId)
         {
             int count = _context.UserProjectMappings.Count(t => t.ProjectId == projectId);
@@ -96,7 +105,7 @@ namespace Repositories.Repository
 
         public async Task<List<Project>> GetAllProjectsAsync()
         {
-            var project = _context.Projects.Where(u => u.IsActive == true).ToList();
+            var project = _context.Projects.ToList();
             if (project != null)
             {
                 return project;
