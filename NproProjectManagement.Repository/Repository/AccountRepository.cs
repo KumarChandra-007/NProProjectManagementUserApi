@@ -1,4 +1,4 @@
-﻿using Common.Models;
+﻿using NproProjectManagement.Common.Models;
 using Repositories.Interface;
 using System;
 using System.Collections.Generic;
@@ -60,6 +60,46 @@ namespace Repositories.Repository
             if (user != null)
             {
                 return user;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
+        public async Task<int> GetTaskCountByProjectId(int projectId)
+        {
+            int count = _context.Tasks.Count(t => t.ProjectId == projectId);           
+            if (count != 0)
+            {
+                return count;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public async Task<int> GetUserCountByProjectId(int projectId)
+        {
+            int count = _context.UserProjectMappings.Count(t => t.ProjectId == projectId);
+            if (count != 0)
+            {
+                return count;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public async Task<List<Project>> GetAllProjectsAsync()
+        {
+            var project = _context.Projects.Where(u => u.IsActive == true).ToList();
+            if (project != null)
+            {
+                return project;
             }
             else
             {

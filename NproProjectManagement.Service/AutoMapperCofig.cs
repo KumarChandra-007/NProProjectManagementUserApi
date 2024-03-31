@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Common.Models;
 using Common.ViewModels;
+using NproProjectManagement.Common.Models;
 
 namespace Services
 {

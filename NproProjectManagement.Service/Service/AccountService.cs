@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Common.ViewModels;
 using Microsoft.Data.SqlClient;
+using NproProjectManagement.Common.ViewModels;
 using Repositories.Interface;
 using Services.Interface;
 using System;
@@ -85,6 +86,34 @@ namespace Services.Service
                     res.PhoneNumber = item.PhoneNumber;
                     res.EmployeeCode = item.EmployeeCode;
                     res.Region = item.Region;
+                    result.Add(res);
+                }
+                // return _mapper.Map<List<UserViewModel>>(user);
+                return result;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<List<ProjectUserTask>> GetProjectUserTaskMappingAsync()
+        {
+            var result = new List<ProjectUserTask>();
+            var project = await _accountRepository.GetAllProjectsAsync();
+            if (project != null)
+            {
+
+
+                foreach (var item in project)
+                {
+                    var res = new ProjectUserTask();
+
+                    res.ProjectId = item.ProjectId;
+                    res.Title = item.Title;
+                    res.UserCount = await _accountRepository.GetUserCountByProjectId(item.ProjectId);
+                    res.TaskCount = await _accountRepository.GetTaskCountByProjectId(item.ProjectId);
+                    
                     result.Add(res);
                 }
                 // return _mapper.Map<List<UserViewModel>>(user);
