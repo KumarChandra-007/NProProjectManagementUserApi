@@ -1,6 +1,4 @@
-﻿using Common.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interface;
 using System.Security.Claims;
@@ -32,7 +30,7 @@ namespace NproProjectManagement.Controllers
             var result = await _accountService.AuthenticateAsync(username, password);
             return Ok(result);
         }
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         [Route("GetUserDetails")]
         public async Task<IActionResult> GetUserDetails()
@@ -42,7 +40,7 @@ namespace NproProjectManagement.Controllers
             return Ok(result);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         [Route("GetAllUserDetails")]
         public async Task<IActionResult> GetAllUserDetails()

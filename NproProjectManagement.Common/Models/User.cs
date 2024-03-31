@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace NproProjectManagement.Common.Models;
-
+﻿namespace NproProjectManagement.Common.Models;
 public partial class User
 {
     public int UserId { get; set; }

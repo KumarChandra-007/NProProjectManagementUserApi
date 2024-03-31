@@ -26,21 +26,6 @@ builder.Services.AddCors(options =>
 var jwtIssuer = builder.Configuration.GetSection("JWT:Issuer").Get<string>();
 var jwtKey = builder.Configuration.GetSection("JWT:Secret").Get<string>();
 
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-// .AddJwtBearer(options =>
-// {
-//     options.TokenValidationParameters = new TokenValidationParameters
-//     {
-//         ValidateIssuer = true,
-//         ValidateAudience = true,
-//         ValidateLifetime = true,
-//         ValidateIssuerSigningKey = true,
-//         ValidIssuer = jwtIssuer,
-//         ValidAudience = jwtIssuer,
-//         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
-//     };
-// }); 
-
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -89,6 +74,7 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
+
 builder.Services.AddDbContext<NproContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionStrings:NproDBConncetion")));
 
@@ -105,13 +91,8 @@ var map = mapper.CreateMapper();
 builder.Services.AddSingleton(map);
 //builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<AuthHelpers>();
-//builder.Services.AddSwaggerGen(c =>
-//  {
-//    c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi", Version = "v1" });
-//  });
 
 var app = builder.Build();
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -120,19 +101,16 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Npro Application");
     });
 }
+
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Npro Application");
 });
-//app.UseSwagger();
-//app.UseSwaggerUI();
 
 // Configure the HTTP request pipeline.
 app.UseCors(MyAllowSpecificOrigins);
-//app.UseAuthentication();
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
