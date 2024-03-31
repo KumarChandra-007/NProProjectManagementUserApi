@@ -57,5 +57,15 @@ namespace NproProjectManagement.Controllers
         //    var result = await _accountService.GetAllUserDetailsAsync();
         //    return Ok(result);
         //}
+
+
+        [Authorize]
+        [HttpGet]
+        [Route("GetProjectUserTaskMapping")]
+        public async Task<IActionResult> GetProjectUserTaskMapping()
+        {
+            var result = await _accountService.GetProjectUserTaskMappingAsync();
+            return Ok(result);
+        }
     }
 }

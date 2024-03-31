@@ -1,7 +1,7 @@
-﻿using Common.Models;
-using Common.ViewModels;
+﻿using Common.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using NproProjectManagement.Common.Models;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;

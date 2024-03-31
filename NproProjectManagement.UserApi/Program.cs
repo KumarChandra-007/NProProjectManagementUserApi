@@ -1,9 +1,9 @@
 using AutoMapper;
-using Common.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using NproProjectManagement.Common.Models;
 using Repositories.Interface;
 using Repositories.Repository;
 using Services;

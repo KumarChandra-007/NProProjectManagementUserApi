@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Common.Models;
+namespace NproProjectManagement.Common.Models;
 
 public partial class User
 {
