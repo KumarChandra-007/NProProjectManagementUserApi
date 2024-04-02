@@ -19,6 +19,7 @@
         public string Email { get; set; }      
 
         public int? Role { get; set; }
+        public string RoleName { get; set; }
 
     }
 }
