@@ -41,6 +41,7 @@ namespace Services.Service
             var user = await _accountRepository.GetUserAsync(username);
             if (user != null)
             {
+                res.RoleName = await _accountRepository.GetRoleByIdAsync(Convert.ToInt32(user.Role));
                 res.UserId = user.UserId;
                 res.Username = user.Username;
                 res.Role = user.Role;
@@ -61,7 +62,7 @@ namespace Services.Service
             if (user != null)
             {
                 foreach (var item in user)
-                {
+                {                    
                     var res = new UserViewModel();
                     res.UserId = item.UserId;
                     res.Username = item.Username;
@@ -72,6 +73,7 @@ namespace Services.Service
                     res.PhoneNumber = item.PhoneNumber;
                     res.EmployeeCode = item.EmployeeCode;
                     res.Region = item.Region;
+                    res.RoleName = await _accountRepository.GetRoleByIdAsync(Convert.ToInt32(item.Role));
                     result.Add(res);
                 }
                 return result;
