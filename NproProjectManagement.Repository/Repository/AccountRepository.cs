@@ -105,5 +105,11 @@ namespace Repositories.Repository
             var project = _context.Projects.Where(p => p.IsActive == true).ToList();
             return project ?? null;
         }
+
+        public async Task<string> GetRoleByIdAsync(int id)
+        {
+            var role = _context.Roles.Where(r => r.IsActive == true && r.RoleId == id).Select(r => r.RoleName).SingleOrDefault();
+            return role ?? null;
+        }
     }
 }

@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Services.Interface;
 using System.Security.Claims;
-using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 using NproProjectManagement.Common.Models;
+using Microsoft.AspNetCore.Authorization;
+
 namespace NproProjectManagement.Controllers
 {
     [Route("userapi")]
@@ -30,7 +30,8 @@ namespace NproProjectManagement.Controllers
             var result = await _accountService.AuthenticateAsync(username, password);
             return Ok(result);
         }
-        //[Authorize]
+        
+        [Authorize]
         [HttpGet]
         [Route("GetUserDetails")]
         public async Task<IActionResult> GetUserDetails()
@@ -40,7 +41,7 @@ namespace NproProjectManagement.Controllers
             return Ok(result);
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         [Route("GetAllUserDetails")]
         public async Task<IActionResult> GetAllUserDetails()
@@ -50,7 +51,7 @@ namespace NproProjectManagement.Controllers
         }
 
 
-        //[Authorize]
+        [Authorize]
         [HttpPost]
         [Route("PostUser")]
         public async Task<IActionResult> PostUser(User user)
@@ -59,7 +60,7 @@ namespace NproProjectManagement.Controllers
             return Ok(result);
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPost]
         [Route("PutUser")]
         public async Task<IActionResult> PutUser(User user)
@@ -68,7 +69,7 @@ namespace NproProjectManagement.Controllers
             return Ok(result);
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPost]
         [Route("DeleteUser")]
         public async Task<IActionResult> DeleteUser(User user)
@@ -77,17 +78,7 @@ namespace NproProjectManagement.Controllers
             return Ok(result);
         }
 
-        //[Authorize]
-        //[HttpGet]
-        //[Route("CreateUpdateUser")]
-        //public async Task<IActionResult> CreateUpdateUser(UserViewModel userViewModel)
-        //{
-        //    var result = await _accountService.GetAllUserDetailsAsync();
-        //    return Ok(result);
-        //}
-
-
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         [Route("GetProjectUserTaskMapping")]
         public async Task<IActionResult> GetProjectUserTaskMapping()

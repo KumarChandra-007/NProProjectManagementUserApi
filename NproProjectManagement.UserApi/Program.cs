@@ -18,10 +18,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins,
-                      policy =>
-                      {
-                          policy.WithOrigins("http://localhost:4200");
-                      });
+                       policy =>
+                       {
+                           policy.AllowAnyOrigin();
+                           policy.AllowAnyMethod();
+                           policy.AllowAnyHeader(); // Allow any header, including "Authorization"
+                       });
 });
 var jwtIssuer = builder.Configuration.GetSection("JWT:Issuer").Get<string>();
 var jwtKey = builder.Configuration.GetSection("JWT:Secret").Get<string>();
