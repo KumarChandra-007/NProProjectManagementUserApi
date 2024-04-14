@@ -1,4 +1,8 @@
-﻿namespace NproProjectManagement.Common.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace NproProjectManagement.Common.Models;
+
 public partial class Task
 {
     public int TaskId { get; set; }

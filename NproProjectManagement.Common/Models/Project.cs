@@ -1,4 +1,7 @@
-﻿namespace NproProjectManagement.Common.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace NproProjectManagement.Common.Models;
 
 public partial class Project
 {
@@ -9,8 +12,6 @@ public partial class Project
     public string? Description { get; set; }
 
     public DateTime Deadline { get; set; }
-
-    public DateTime StartDate { get; set; }
 
     public string Status { get; set; } = null!;
 

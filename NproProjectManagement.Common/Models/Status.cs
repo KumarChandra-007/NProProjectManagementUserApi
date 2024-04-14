@@ -1,4 +1,8 @@
-﻿namespace NproProjectManagement.Common.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace NproProjectManagement.Common.Models;
+
 public partial class Status
 {
     public int StatusId { get; set; }
