@@ -42,37 +42,46 @@ namespace Repositories.Repository
         }
         public async Task<AllProjectInfo> GetAllProjectInfo()
         {
-            AllProjectInfo info = new AllProjectInfo();
-            var tasks = _context.Tasks.ToList();
-            var projects = _context.Projects.Where(p => p.IsActive == true).ToList();
-            info.AllTaskCount = tasks.Count();
-            info.CompletedTaskCount = tasks.Count(t => t.Status.ToLower().Contains("completed"));
-            info.PendingTaskCount = tasks.Count(t => !t.Status.ToLower().Contains("completed"));
-            info.AllProjectCount = projects.Count();
-            info.ProjectUserTaskGridInfo = new List<ProjectUserTask>();
-            var statuses = _context.Statuses.ToList();
-            string statusPercentage = string.Empty;
-            projects.ForEach(project =>
+            try
             {
-                ProjectUserTask userTask = new ProjectUserTask();
-                statuses.ForEach(status =>
-                {
-                    var count = tasks.Count(task => project.ProjectId == task.ProjectId && task.Status.ToLower() == status.StatusName.ToLower());
-                    statusPercentage += status.StatusName + ":" + count.ToString() + ",";
-                });
-                if (statusPercentage != string.Empty)
-                {
-                    statusPercentage = statusPercentage.Remove(statusPercentage.Length - 1);
-                }
-                userTask.ProjectId = project.ProjectId;
-                userTask.Title = project.Title;
-                userTask.UserCount = _context.UserProjectMappings.Count(t => t.ProjectId == project.ProjectId);
-                userTask.TaskCount = tasks.Count(t => t.ProjectId == project.ProjectId);
-                userTask.StatusPercentage = statusPercentage;
-                info.ProjectUserTaskGridInfo.Add(userTask);
-            });
+                AllProjectInfo info = new AllProjectInfo();
+                var tasks = _context.Tasks.ToList();
+                var projects = _context.Projects.Where(p => p.IsActive == true).ToList();
+                info.AllTaskCount = tasks.Count();
+                info.CompletedTaskCount = tasks.Count(t => t.Status.ToLower().Contains("completed"));
+                info.PendingTaskCount = tasks.Count(t => !t.Status.ToLower().Contains("completed"));
+                info.AllProjectCount = projects.Count();
+                info.ProjectUserTaskGridInfo = new List<ProjectUserTask>();
+                var statuses = _context.Statuses.ToList();
 
-            return info;
+                projects.ForEach(project =>
+                {
+                    string statusPercentage = string.Empty;
+                    ProjectUserTask userTask = new ProjectUserTask();
+                    statuses.ForEach(status =>
+                    {
+                        var count = tasks.Count(task => project.ProjectId == task.ProjectId && task.Status.ToLower() == status.StatusId.ToString().ToLower());
+                        statusPercentage += status.StatusName + ":" + count.ToString() + ",";
+                    });
+                    if (statusPercentage != string.Empty)
+                    {
+                        statusPercentage = statusPercentage.Remove(statusPercentage.Length - 1);
+                    }
+                    userTask.ProjectId = project.ProjectId;
+                    userTask.Title = project.Title;
+                    userTask.UserCount = _context.UserProjectMappings.Count(t => t.ProjectId == project.ProjectId);
+                    userTask.TaskCount = tasks.Count(t => t.ProjectId == project.ProjectId);
+                    userTask.StatusPercentage = statusPercentage;
+                    info.ProjectUserTaskGridInfo.Add(userTask);
+                });
+
+                return info;
+            }
+            catch (Exception ex)
+            {
+                var s = ex.Message;
+                return null;
+            }
         }
         public async Task<int> GetUserCountByProjectId(int projectId)
         {
