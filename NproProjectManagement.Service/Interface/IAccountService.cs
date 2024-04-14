@@ -1,11 +1,6 @@
 ﻿using Common.ViewModels;
 using NproProjectManagement.Common.Models;
 using NproProjectManagement.Common.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Services.Interface
 {
